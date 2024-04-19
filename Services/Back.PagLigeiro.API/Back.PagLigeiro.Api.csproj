@@ -1,0 +1,39 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <UserSecretsId>b97c70d6-abc3-4fe8-8514-9848468e63f3</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="6.2.0" />
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.1.0" />
+    <PackageReference Include="AutoMapper" Version="11.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.10" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.10" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.10">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Caching.Redis" Version="2.2.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.14.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="RestSharp" Version="106.12.0" />
+    <PackageReference Include="Serilog.AspNetCore" Version="4.1.0" />
+    <PackageReference Include="Serilog.Settings.Configuration" Version="3.3.0" />
+    <PackageReference Include="Serilog.Sinks.Async" Version="1.5.0" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="4.0.0" />
+    <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
+    <PackageReference Include="Serilog.Sinks.MSSqlServer" Version="5.6.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Application\Back.PagLigeiro.Application\Back.PagLigeiro.Application.csproj" />
+    <ProjectReference Include="..\..\Infraestructure\Back.PagLigeiro.Infraestructure\Back.PagLigeiro.Infraestructure.csproj" />
+  </ItemGroup>
+
+</Project>

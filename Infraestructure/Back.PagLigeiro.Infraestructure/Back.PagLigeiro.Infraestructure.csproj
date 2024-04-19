@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Data\Scripts\**" />
+    <EmbeddedResource Remove="Data\Scripts\**" />
+    <None Remove="Data\Scripts\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="6.2.0" />
+    <PackageReference Include="Dapper" Version="2.0.90" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.10" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="5.0.10" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.10" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.10">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+ 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Application\Back.PagLigeiro.Application\Back.PagLigeiro.Application.csproj" />
+    <ProjectReference Include="..\..\Domain\Back.PagLigeiro.Domain.Core\Back.PagLigeiro.Domain.Core.csproj" />
+    <ProjectReference Include="..\..\Domain\Back.PagLigeiro.Domain.Services\Back.PagLigeiro.Domain.Services.csproj" />
+  </ItemGroup>
+
+</Project>
