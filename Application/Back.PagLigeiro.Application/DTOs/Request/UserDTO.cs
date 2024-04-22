@@ -7,7 +7,7 @@ namespace Back.PagLigeiro.Application.DTOs.Request
     public class UserCreateRequest
     {
         [Required]
-        public string Name { get; set; }
+        public string Nome { get; set; }
 
         [Required]
         [EmailAddress]
@@ -21,7 +21,7 @@ namespace Back.PagLigeiro.Application.DTOs.Request
     {
         public string Nome { get; set; }
         public string Email { get; set; }
-        public DateTime DataNascimento { get; set; }
+        public DateTime? DataNascimento { get; set; }
         public string CPF { get; set; }
         public string RG { get; set; }
         public string Endereco { get; set; }
