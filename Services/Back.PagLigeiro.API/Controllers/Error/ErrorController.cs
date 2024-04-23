@@ -16,7 +16,7 @@ namespace Back.PagLigeiro.Api.Controllers.Error
             var exception = context?.Error;
             var iderro = Activity.Current?.Id ?? HttpContext?.TraceIdentifier;
             Response.StatusCode = 500;
-            return new ErrorResponse("", "", "Ocorreu um Erro ao processar sua solicitação...", Response.StatusCode, iderro);
+            return new ErrorResponse("", "Ocorreu um Erro ao processar sua solicitação...", Response.StatusCode, iderro);
         }
     }
 }

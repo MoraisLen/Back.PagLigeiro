@@ -3,9 +3,11 @@ using Back.PagLigeiro.Api.Controllers.Request;
 using Back.PagLigeiro.Application.DTOs.Request;
 using Back.PagLigeiro.Application.DTOs.Result;
 using Back.PagLigeiro.Application.Interfaces;
+using Back.PagLigeiro.Domain.Generics;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace Back.PagLigeiro.Api.Controllers
@@ -33,11 +35,11 @@ namespace Back.PagLigeiro.Api.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(ErrorResponse))]
         public async Task<IActionResult> CreateAsync([FromBody] UserCreateRequest request)
         {
-            LoginResult result = await _userApplicationService.CreateAsync(request);
+            ValidationReturn<LoginResult> result = await _userApplicationService.CreateAsync(request);
 
-            return result == null
-                ? StatusCode(StatusCodes.Status401Unauthorized)
-                : StatusCode(StatusCodes.Status200OK, new SimpleResponse<LoginResult>(true, result));
+            return result.Success
+                ? StatusCode(StatusCodes.Status200OK, new SimpleResponse<LoginResult>(true, result.Data))
+                : StatusCode(StatusCodes.Status400BadRequest, new ErrorResponse(result.Errors));
         }
     }
 }

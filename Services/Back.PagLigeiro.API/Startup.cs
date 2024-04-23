@@ -45,7 +45,7 @@ namespace Back.PagLigeiro.Api
             services.AddScoped<DbSession>();
             services.AddControllers(options =>
             {
-                options.Filters.Add<ValidationExceptionFilter>();
+                //options.Filters.Add<ValidationExceptionFilter>();
                 options.Filters.Add(new ProducesAttribute("application/json"));
             });
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
