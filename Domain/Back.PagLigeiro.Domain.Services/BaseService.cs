@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Back.PagLigeiro.Domain.Services
 {
-    public class BaseService<T> : IBaseService<T> where T : class
+    public abstract class BaseService<T> : IBaseService<T> where T : class
     {
         private readonly IBaseRepository<T> _repository;
         public BaseService(IBaseRepository<T> repository)

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Back.PagLigeiro.Infraestructure.Data.Repository
 {
-    public class BaseRepository<T> : IBaseRepository<T> where T : class
+    public abstract class BaseRepository<T> : IBaseRepository<T> where T : class
     {
         private readonly SqlContext _sqlContext;
 

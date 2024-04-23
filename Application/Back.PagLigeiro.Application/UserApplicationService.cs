@@ -25,7 +25,7 @@ namespace Back.PagLigeiro.Application
 
         public async Task<LoginResult> LoginAsync(LoginRequest login)
         {
-            UserModel userResult = await _service.Login(login.Email, CriptografiaHelper.Encriptar(_configuration, login.Password));
+            UserModel userResult = await _service.Login(login.Email, login.Password);
 
             if (userResult != null)
                 return Access(userResult);
@@ -36,7 +36,6 @@ namespace Back.PagLigeiro.Application
         public async Task<LoginResult> CreateAsync(UserCreateRequest _request)
         {
             UserModel user = _map.Map<UserModel>(_request);
-            user.Password = CriptografiaHelper.Encriptar(_configuration, _request.Password);
 
             return await _service.CreateAsync(user)
                     ? Access(user)
