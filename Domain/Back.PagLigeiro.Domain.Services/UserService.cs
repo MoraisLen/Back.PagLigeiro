@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using Back.PagLigeiro.Domain.Core.Interfaces.Repository;
 using Back.PagLigeiro.Domain.Core.Interfaces.Services;
+using Back.PagLigeiro.Domain.Generics;
 using Back.PagLigeiro.Domain.Model.User;
 using Back.PagLigeiro.Util.Security;
 using Back.PagLigeiro.Util.Validation.Error;
 using Microsoft.Extensions.Configuration;
+using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 
 namespace Back.PagLigeiro.Domain.Services
@@ -30,22 +32,27 @@ namespace Back.PagLigeiro.Domain.Services
         public async Task<UserModel> Login(string email, string password)
             => await _userRepository.GetUserByEmailAndPassword(email, CriptografiaHelper.Encriptar(_configuration, password));
 
-        public new async Task<bool> CreateAsync(UserModel user)
+        public new async Task<ValidationReturn<UserModel>> CreateAsync(UserModel user)
         {
             user.Password = CriptografiaHelper.Encriptar(_configuration, user.Password);
+            ValidationReturn<UserModel> validacao = await ValidationUser(user);
 
-            if (await ValidationUser(user))
-                return await _userRepository.CreateAsync(user);
+            if (validacao.Success)
+                validacao.Success = await _userRepository.CreateAsync(user);
 
-            return false;
+            return validacao;
         }
 
-        private async Task<bool> ValidationUser(UserModel user)
+        private async Task<ValidationReturn<UserModel>> ValidationUser(UserModel user)
         {
-            if (await _userRepository.GetUserByEmail(user.Email) != null)
-                throw ErrorValidation.getError("Email", "Email já cadastrado.");
+            ValidationReturn<UserModel> error = new ValidationReturn<UserModel>();
 
-            return true;
+            if (await _userRepository.GetUserByEmail(user.Email) != null)
+                error.Add("Email", "Email já existente na base");
+
+            error.Success = error.Errors.Count == 0;
+
+            return error;
         }
     }
 }

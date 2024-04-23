@@ -12,16 +12,16 @@ namespace Back.PagLigeiro.Api.Controllers.Filter
         {
             string iderro = Activity.Current?.Id ?? context.HttpContext.TraceIdentifier;
 
-            if (context.Exception is ErrorValidation validationException)
-            {
-                context.Result = new BadRequestObjectResult(new ErrorResponse(validationException, iderro));
-                context.ExceptionHandled = true;
-            }
-            else
-            {
-                context.Result = new BadRequestObjectResult(new ErrorResponse(null, null, null, 500, iderro));
-                context.ExceptionHandled = true;
-            }
+            //if (context.Exception is ErrorValidation validationException)
+            //{
+            //    context.Result = new BadRequestObjectResult(new ErrorResponse(validationException, iderro));
+            //    context.ExceptionHandled = true;
+            //}
+            //else
+            //{
+            //    context.Result = new BadRequestObjectResult(new ErrorResponse(null, null, 500, iderro));
+            //    context.ExceptionHandled = true;
+            //}
         }
     }
 }
