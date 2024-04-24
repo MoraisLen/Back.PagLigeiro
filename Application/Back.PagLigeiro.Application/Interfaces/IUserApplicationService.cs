@@ -7,7 +7,7 @@ namespace Back.PagLigeiro.Application.Interfaces
 {
     public interface IUserApplicationService
     {
-        Task<ValidationReturn<LoginResult>> CreateAsync(UserCreateRequest _request);
-        Task<LoginResult> LoginAsync(LoginRequest login);
+        Task<ValidationReturn<LoginResult>> CreateAsync(UserCreateRequest request);
+        Task<ValidationReturn<LoginResult>> LoginAsync(LoginRequest login);
     }
 }

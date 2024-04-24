@@ -6,6 +6,7 @@ using Back.PagLigeiro.Domain.Model.User;
 using Back.PagLigeiro.Util.Security;
 using Back.PagLigeiro.Util.Validation.Error;
 using Microsoft.Extensions.Configuration;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 
@@ -35,24 +36,27 @@ namespace Back.PagLigeiro.Domain.Services
         public new async Task<ValidationReturn<UserModel>> CreateAsync(UserModel user)
         {
             user.Password = CriptografiaHelper.Encriptar(_configuration, user.Password);
-            ValidationReturn<UserModel> validacao = await ValidationUser(user);
+            List<FildErrorReturn> errors = await ValidationUser(user);
 
-            if (validacao.Success)
-                validacao.Success = await _userRepository.CreateAsync(user);
+            if (errors.Count == 0) 
+            {
+                if (!await _userRepository.CreateAsync(user))
+                    errors.Add(new FildErrorReturn("Operação de gravação", "Ocorreu um erro no processo de gravação. Verifique os logs."));
+            }
 
-            return validacao;
+            return errors.Count > 0
+                ? ValidationReturn<UserModel>.WithErrors(errors)
+                : ValidationReturn<UserModel>.Ok(user);
         }
 
-        private async Task<ValidationReturn<UserModel>> ValidationUser(UserModel user)
+        private async Task<List<FildErrorReturn>> ValidationUser(UserModel user)
         {
-            ValidationReturn<UserModel> error = new ValidationReturn<UserModel>();
+            List<FildErrorReturn> errors = new List<FildErrorReturn>();
 
             if (await _userRepository.GetUserByEmail(user.Email) != null)
-                error.Add("Email", "Email já existente na base");
+                errors.Add(new FildErrorReturn("Email", "Email já existente na base."));
 
-            error.Success = error.Errors.Count == 0;
-
-            return error;
+            return errors;
         }
     }
 }

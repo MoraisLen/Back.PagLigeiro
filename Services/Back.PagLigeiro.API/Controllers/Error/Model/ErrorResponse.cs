@@ -18,8 +18,7 @@ namespace Back.PagLigeiro.Api.Controllers.Error.Model
         public Dictionary<string, List<string>>? Errors { get; set; }
 
         public ErrorResponse()
-        {
-        }
+        { }
 
         public ErrorResponse(string type = null, string title = null, int status = 400, string traceId = null)
         {

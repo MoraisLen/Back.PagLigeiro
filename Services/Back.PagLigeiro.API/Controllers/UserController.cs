@@ -32,7 +32,7 @@ namespace Back.PagLigeiro.Api.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(SimpleResponse<LoginResult>))]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(ErrorResponse))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ErrorResponse))]
         public async Task<IActionResult> CreateAsync([FromBody] UserCreateRequest request)
         {
             ValidationReturn<LoginResult> result = await _userApplicationService.CreateAsync(request);

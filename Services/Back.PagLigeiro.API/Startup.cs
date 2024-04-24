@@ -1,5 +1,6 @@
 using Autofac;
 using Back.PagLigeiro.Api.Controllers.Filter;
+using Back.PagLigeiro.Api.Middleware;
 using Back.PagLigeiro.Application.DTOs.Mapper;
 using Back.PagLigeiro.Infraestructure.CrossCutting.IOC;
 using Back.PagLigeiro.Infraestructure.Data;
@@ -45,19 +46,11 @@ namespace Back.PagLigeiro.Api
             services.AddScoped<DbSession>();
             services.AddControllers(options =>
             {
-                //options.Filters.Add<ValidationExceptionFilter>();
                 options.Filters.Add(new ProducesAttribute("application/json"));
             });
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
             services.AddAutoMapper(typeof(ConfigAutoMapper));
-
-            //services.Configure<ApiBehaviorOptions>(options =>
-            //{
-            //    options.SuppressConsumesConstraintForFormFileParameters = true;
-            //    options.SuppressInferBindingSourcesForParameters = true;
-            //    options.SuppressModelStateInvalidFilter = true;
-            //});
 
             services.AddAuthentication
                   (JwtBearerDefaults.AuthenticationScheme)
@@ -109,14 +102,6 @@ namespace Back.PagLigeiro.Api
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath);
             });
-
-            //services.Configure<Carro>(option =>
-            //{
-            //    var carro = JsonConvert.DeserializeObject<Carro>(Environment.GetEnvironmentVariable("dbTeste"));
-            //    option.Id = carro.Id;
-            //    option.Placa = carro.Placa;
-            //    option.Marca = carro.Marca;
-            //});
         }
 
         public void ConfigureContainer(ContainerBuilder builder)
@@ -137,6 +122,8 @@ namespace Back.PagLigeiro.Api
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("v1/swagger.json", "PagLigeiro.API v1"));
             //app.UseHttpsRedirection();
+
+            app.UseMiddleware<ResponseCaptureMiddleware>();
 
             app.UseRouting();
 
