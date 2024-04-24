@@ -1,45 +1,42 @@
-﻿using Back.PagLigeiro.Util.Validation.Error;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Back.PagLigeiro.Domain.Generics
 {
     public class ValidationReturn<T>
     {
-        public ValidationReturn()
-        {
-            Errors = new List<FildErrorReturn>();
-        }
-
-        public ValidationReturn(List<FildErrorReturn> errors)
-        {
-            Errors = errors;
-            Success = false;
-            Message = "Errp de validação de dados";
-        }
-
-        public ValidationReturn(T data)
-        {
-            Data = data;
-            Success = true;
-        }
-
-        public void Add(string field, string message)
-        {
-            Errors.Add(new FildErrorReturn
-            {
-                Field = field,
-                Message = message
-            });
-        }
-
         public bool Success { get; set; }
-        public T Data { get; set; }
-        public string Message { get; set; }
-        public List<FildErrorReturn> Errors { get; set; }
+        public T? Data { get; set; }
+        public List<FildErrorReturn>? Errors { get; set; }
+
+        public static ValidationReturn<T> Ok(T _data = default(T))
+        {
+            return new ValidationReturn<T>
+            {
+                Success = true,
+                Data = _data,
+                Errors = null
+            };
+        }
+
+        public static ValidationReturn<T> WithErrors(List<FildErrorReturn> _errors = null)
+        {
+            return new ValidationReturn<T>
+            {
+                Success = false,
+                Data = default(T),
+                Errors = _errors
+            };
+        }
     }
 
     public class FildErrorReturn
     {
+        public FildErrorReturn(string field, string message)
+        {
+            Field = field;
+            Message = message;
+        }
+
         public string Field { get; set; }
         public string Message { get; set; }
     }

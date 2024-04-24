@@ -3,6 +3,7 @@ using Back.PagLigeiro.Api.Controllers.Request;
 using Back.PagLigeiro.Application.DTOs.Request;
 using Back.PagLigeiro.Application.DTOs.Result;
 using Back.PagLigeiro.Application.Interfaces;
+using Back.PagLigeiro.Domain.Generics;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -34,18 +35,11 @@ namespace Back.PagLigeiro.Api.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(ErrorResponse))]
         public async Task<IActionResult> LoginAsync([FromBody]LoginRequest request)
         {
-            try
-            {
-                LoginResult result = await _userApplicationService.LoginAsync(request);
+            ValidationReturn<LoginResult> result = await _userApplicationService.LoginAsync(request);
 
-                return result == null
-                    ? StatusCode(StatusCodes.Status401Unauthorized)
-                    : StatusCode(StatusCodes.Status200OK, new SimpleResponse<LoginResult>(true, result));
-            }
-            catch
-            {
-                return StatusCode(StatusCodes.Status400BadRequest);
-            }
+            return result.Success
+                ? StatusCode(StatusCodes.Status200OK, new SimpleResponse<LoginResult>(true, result.Data))
+                : StatusCode(StatusCodes.Status401Unauthorized);
         }
     }
 }

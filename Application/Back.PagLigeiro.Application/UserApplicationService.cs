@@ -24,24 +24,23 @@ namespace Back.PagLigeiro.Application
             _configuration = configuration;
         }
 
-        public async Task<LoginResult> LoginAsync(LoginRequest login)
+        public async Task<ValidationReturn<LoginResult>> LoginAsync(LoginRequest login)
         {
             UserModel userResult = await _service.Login(login.Email, login.Password);
 
-            if (userResult != null)
-                return await Access(userResult);
-
-            return null;
+            return userResult != null
+                ? ValidationReturn<LoginResult>.Ok(await Access(userResult))
+                : ValidationReturn<LoginResult>.WithErrors();
         }
 
-        public async Task<ValidationReturn<LoginResult>> CreateAsync(UserCreateRequest _request)
+        public async Task<ValidationReturn<LoginResult>> CreateAsync(UserCreateRequest request)
         {
-            UserModel user = _map.Map<UserModel>(_request);
+            UserModel user = _map.Map<UserModel>(request);
             ValidationReturn<UserModel> ret = await _service.CreateAsync(user);
 
             return ret.Success
-                ? new ValidationReturn<LoginResult>(data: await Access(user))
-                : new ValidationReturn<LoginResult>(errors: ret.Errors);
+                ? ValidationReturn<LoginResult>.Ok(await Access(user))
+                : ValidationReturn<LoginResult>.WithErrors(ret.Errors);
         }
 
         private async Task<LoginResult> Access(UserModel user)
