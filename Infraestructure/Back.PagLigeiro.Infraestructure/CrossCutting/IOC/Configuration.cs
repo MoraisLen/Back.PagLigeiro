@@ -14,10 +14,16 @@ namespace Back.PagLigeiro.Infraestructure.CrossCutting.IOC
         {
             #region SERVICES
             builder.RegisterType<UserService>().As<IUserService>();
+            builder.RegisterType<ClienteService>().As<IClienteService>();
+            builder.RegisterType<ServicoService>().As<IServicoService>();
+            builder.RegisterType<BoletoService>().As<IBoletoService>();
             #endregion
 
             #region REPOSITORY
             builder.RegisterType<UserRepository>().As<IUserRepository>();
+            builder.RegisterType<ClienteRepository>().As<IClienteRepository>();
+            builder.RegisterType<ServicoRepository>().As<IServicoRepository>();
+            builder.RegisterType<BoletoRepository>().As<IBoletoRepository>();
             #endregion
 
             #region APPLICATION

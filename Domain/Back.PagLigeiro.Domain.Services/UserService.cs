@@ -2,6 +2,7 @@
 using Back.PagLigeiro.Domain.Core.Interfaces.Repository;
 using Back.PagLigeiro.Domain.Core.Interfaces.Services;
 using Back.PagLigeiro.Domain.Generics;
+using Back.PagLigeiro.Domain.Model.Cliente;
 using Back.PagLigeiro.Domain.Model.User;
 using Back.PagLigeiro.Util.Security;
 using Back.PagLigeiro.Util.Validation.Error;
@@ -16,22 +17,23 @@ namespace Back.PagLigeiro.Domain.Services
     {
         private readonly IConfiguration _configuration;
         private readonly IUserRepository _userRepository;
+        private readonly IClienteRepository _crepository;
         private readonly IMapper _map;
 
         public UserService
         (
             IConfiguration configuraton,
             IUserRepository repositoryUser,
-            IMapper map
-        ) : base(repositoryUser)
+            IMapper map,
+            IClienteRepository crepository) : base(repositoryUser)
         {
             _configuration = configuraton;
             _userRepository = repositoryUser;
             _map = map;
+            _crepository = crepository;
         }
 
-        public async Task<UserModel> Login(string email, string password)
-            => await _userRepository.GetUserByEmailAndPassword(email, CriptografiaHelper.Encriptar(_configuration, password));
+        public async Task<UserModel> Login(string email, string password) => await _userRepository.GetUserByEmailAndPassword(email, CriptografiaHelper.Encriptar(_configuration, password));
 
         public new async Task<ValidationReturn<UserModel>> CreateAsync(UserModel user)
         {
@@ -40,7 +42,9 @@ namespace Back.PagLigeiro.Domain.Services
 
             if (errors.Count == 0) 
             {
-                if (!await _userRepository.CreateAsync(user))
+                await _userRepository.CreateAsync(user);
+
+                if (!await _userRepository.CommitAsync())
                     errors.Add(new FildErrorReturn("Operação de gravação", "Ocorreu um erro no processo de gravação. Verifique os logs."));
             }
 
@@ -49,6 +53,10 @@ namespace Back.PagLigeiro.Domain.Services
                 : ValidationReturn<UserModel>.Ok(user);
         }
 
+        public async Task Teste()
+        {}
+
+        #region Validação
         private async Task<List<FildErrorReturn>> ValidationUser(UserModel user)
         {
             List<FildErrorReturn> errors = new List<FildErrorReturn>();
@@ -58,5 +66,6 @@ namespace Back.PagLigeiro.Domain.Services
 
             return errors;
         }
+        #endregion
     }
 }

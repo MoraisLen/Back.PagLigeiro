@@ -1,5 +1,7 @@
 ﻿using Back.PagLigeiro.Domain.Core.Interfaces.Repository;
+using Back.PagLigeiro.Util.LogHelper;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,22 +16,27 @@ namespace Back.PagLigeiro.Infraestructure.Data.Repository
         {
             _sqlContext = sqlContext;
         }
-        public async Task<bool> CreateAsync(T item)
+
+        public async Task<bool> CommitAsync()
         {
-            await _sqlContext.Set<T>().AddAsync(item);
-            return await _sqlContext.SaveChangesAsync() > 0;
+            try
+            {
+                return await _sqlContext.SaveChangesAsync() > 0;
+            }
+            catch(Exception e)
+            {
+                LogHelper.Error(e.Message);
+                return false;
+            }
         }
 
-        public async Task DeleteAsync(T item)
-        {
-            _sqlContext.Set<T>().Remove(item);
-            await _sqlContext.SaveChangesAsync();
-        }
+        public async Task CreateAsync(T item) => await _sqlContext.Set<T>().AddAsync(item);
 
-        public async Task<List<T>> GetAllAsync()
-        {
-            return await _sqlContext.Set<T>().ToListAsync();
-        }
+        public async Task DeleteAsync(T item) => _sqlContext.Set<T>().Remove(item);
+
+        public async Task<List<T>> GetAllAsync() => await _sqlContext.Set<T>().ToListAsync();
+
+        public async Task UpdateAsync(T item) => _sqlContext.Entry(item).State = EntityState.Modified;
 
         public async Task<T> GetByIdAsync(int id)
         {
@@ -38,16 +45,7 @@ namespace Back.PagLigeiro.Infraestructure.Data.Repository
 
         public IQueryable<T> GetIQueryable()
         {
-
             return _sqlContext.Set<T>();
-        }
-
-        public async Task<T> UpdateAsync(T item)
-        {
-            _sqlContext.Entry(item).State = EntityState.Modified;
-            await _sqlContext.SaveChangesAsync();
-
-            return item;
         }
     }
 }

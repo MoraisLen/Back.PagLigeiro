@@ -4,6 +4,7 @@ using Back.PagLigeiro.Application.DTOs.Result;
 using Back.PagLigeiro.Application.Interfaces;
 using Back.PagLigeiro.Domain.Core.Interfaces.Services;
 using Back.PagLigeiro.Domain.Generics;
+using Back.PagLigeiro.Domain.Model.Cliente;
 using Back.PagLigeiro.Domain.Model.User;
 using Back.PagLigeiro.Util.Security;
 using Microsoft.Extensions.Configuration;
@@ -49,6 +50,12 @@ namespace Back.PagLigeiro.Application
             string token = JWTHelper.getToken(_configuration, user.Email, (int)user.Role);
 
             return new LoginResult(token, userMap);
+        }
+
+        public async Task TesteAsync()
+        {
+            await _service.Teste();
+
         }
     }
 }

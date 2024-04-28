@@ -9,5 +9,6 @@ namespace Back.PagLigeiro.Application.Interfaces
     {
         Task<ValidationReturn<LoginResult>> CreateAsync(UserCreateRequest request);
         Task<ValidationReturn<LoginResult>> LoginAsync(LoginRequest login);
+        Task TesteAsync();
     }
 }

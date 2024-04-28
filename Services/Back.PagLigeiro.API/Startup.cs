@@ -116,14 +116,14 @@ namespace Back.PagLigeiro.Api
 
             //if (env.IsDevelopment())
             //{
-            //    app.UseDeveloperExceptionPage();
+                //app.UseDeveloperExceptionPage();
             //}
 
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("v1/swagger.json", "PagLigeiro.API v1"));
             //app.UseHttpsRedirection();
 
-            app.UseMiddleware<ResponseCaptureMiddleware>();
+            //app.UseMiddleware<ResponseCaptureMiddleware>();
 
             app.UseRouting();
 

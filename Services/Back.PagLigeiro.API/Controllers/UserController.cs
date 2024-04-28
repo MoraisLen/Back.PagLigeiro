@@ -41,5 +41,14 @@ namespace Back.PagLigeiro.Api.Controllers
                 ? StatusCode(StatusCodes.Status200OK, new SimpleResponse<LoginResult>(true, result.Data))
                 : StatusCode(StatusCodes.Status400BadRequest, new ErrorResponse(result.Errors));
         }
+
+        //[HttpGet]
+        //[AllowAnonymous]
+        //public async Task<IActionResult> TesteAsync()
+        //{
+        //    await _userApplicationService.TesteAsync();
+
+        //    return StatusCode(StatusCodes.Status200OK);
+        //}
     }
 }
