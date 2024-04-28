@@ -8,5 +8,6 @@ namespace Back.PagLigeiro.Domain.Core.Interfaces.Services
     {
         new Task<ValidationReturn<UserModel>> CreateAsync(UserModel user);
         Task<UserModel> Login(string email, string password);
+        Task Teste();
     }
 }

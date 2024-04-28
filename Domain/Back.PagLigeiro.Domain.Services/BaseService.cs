@@ -16,12 +16,14 @@ namespace Back.PagLigeiro.Domain.Services
         }
         public async Task<bool> CreateAsync(T item)
         {
-            return await _repository.CreateAsync(item);
+            await _repository.CreateAsync(item);
+            return await _repository.CommitAsync();
         }
 
-        public async Task DeleteAsync(T item)
+        public async Task<bool> DeleteAsync(T item)
         {
             await _repository.DeleteAsync(item);
+            return await _repository.CommitAsync();
         }
 
         public async Task<List<T>> GetAllAsync()
@@ -39,9 +41,10 @@ namespace Back.PagLigeiro.Domain.Services
             return await _repository.GetByIdAsync(id);
         }
 
-        public async Task<T> UpdateAsync(T item)
+        public async Task<bool> UpdateAsync(T item)
         {
-            return await _repository.UpdateAsync(item);
+            await _repository.UpdateAsync(item);
+            return await _repository.CommitAsync();
         }
     }
 }
