@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Back.PagLigeiro.Application.DTOs.Request;
-using Back.PagLigeiro.Application.DTOs.Result;
 using Back.PagLigeiro.Application.Interfaces;
 using Back.PagLigeiro.Domain.Core.Interfaces.Services;
 using Back.PagLigeiro.Domain.Generics;

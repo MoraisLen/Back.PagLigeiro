@@ -28,6 +28,7 @@ namespace Back.PagLigeiro.Infraestructure.CrossCutting.IOC
 
             #region APPLICATION
             builder.RegisterType<UserApplicationService>().As<IUserApplicationService>();
+            builder.RegisterType<ServicoApplicationService>().As<IServicoApplicationService>();
             #endregion
 
         }

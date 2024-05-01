@@ -39,5 +39,13 @@ namespace Back.PagLigeiro.Domain.Generics
 
         public string Field { get; set; }
         public string Message { get; set; }
+
+        public List<FildErrorReturn> ToList()
+        {
+            return new List<FildErrorReturn>
+            {
+                this
+            };
+        }
     }
 }

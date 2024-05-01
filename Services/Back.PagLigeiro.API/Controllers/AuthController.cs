@@ -1,7 +1,6 @@
 ﻿using Back.PagLigeiro.Api.Controllers.Error.Model;
 using Back.PagLigeiro.Api.Controllers.Request;
 using Back.PagLigeiro.Application.DTOs.Request;
-using Back.PagLigeiro.Application.DTOs.Result;
 using Back.PagLigeiro.Application.Interfaces;
 using Back.PagLigeiro.Domain.Generics;
 using Microsoft.AspNetCore.Authorization;

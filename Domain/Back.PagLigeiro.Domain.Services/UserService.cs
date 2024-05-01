@@ -2,13 +2,10 @@
 using Back.PagLigeiro.Domain.Core.Interfaces.Repository;
 using Back.PagLigeiro.Domain.Core.Interfaces.Services;
 using Back.PagLigeiro.Domain.Generics;
-using Back.PagLigeiro.Domain.Model.Cliente;
 using Back.PagLigeiro.Domain.Model.User;
 using Back.PagLigeiro.Util.Security;
-using Back.PagLigeiro.Util.Validation.Error;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 
 namespace Back.PagLigeiro.Domain.Services
@@ -40,7 +37,7 @@ namespace Back.PagLigeiro.Domain.Services
             user.Password = CriptografiaHelper.Encriptar(_configuration, user.Password);
             List<FildErrorReturn> errors = await ValidationUser(user);
 
-            if (errors.Count == 0) 
+            if (errors.Count == 0)
             {
                 await _userRepository.CreateAsync(user);
 
@@ -54,9 +51,10 @@ namespace Back.PagLigeiro.Domain.Services
         }
 
         public async Task Teste()
-        {}
+        { }
 
         #region Validação
+
         private async Task<List<FildErrorReturn>> ValidationUser(UserModel user)
         {
             List<FildErrorReturn> errors = new List<FildErrorReturn>();
@@ -66,6 +64,7 @@ namespace Back.PagLigeiro.Domain.Services
 
             return errors;
         }
-        #endregion
+
+        #endregion Validação
     }
 }

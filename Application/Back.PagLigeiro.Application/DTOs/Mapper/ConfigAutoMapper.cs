@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Back.PagLigeiro.Application.DTOs.Request;
+using Back.PagLigeiro.Domain.Model.Servico;
 using Back.PagLigeiro.Domain.Model.User;
 
 namespace Back.PagLigeiro.Application.DTOs.Mapper
@@ -17,6 +18,16 @@ namespace Back.PagLigeiro.Application.DTOs.Mapper
             CreateMap<UserModel, UserResult>();
 
             #endregion User
+
+            #region Servico
+
+            CreateMap<ServicoRequest, ServicoModel>();
+            CreateMap<ServicoModel, ServicoRequest>();
+
+            CreateMap<ServicoModel, ServicoResult>();
+            CreateMap<ServicoResult, ServicoModel>();
+
+            #endregion
         }
     }
 }
