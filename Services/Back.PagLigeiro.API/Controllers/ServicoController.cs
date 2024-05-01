@@ -14,40 +14,31 @@ namespace Back.PagLigeiro.Api.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ErrorResponse))]
-    public class UserController : ControllerBase
+    public class ServicoController : ControllerBase
     {
-        private readonly IUserApplicationService _userApplicationService;
-        public UserController(IUserApplicationService userApplicationService)
+        private readonly IServicoApplicationService _servicoApplicationService;
+        public ServicoController(IServicoApplicationService servicoApplicationService)
         {
-            _userApplicationService = userApplicationService;
+            _servicoApplicationService = servicoApplicationService;
         }
 
         /// <summary>
-        /// Criação de credênciais de acesso.
+        /// Criação do serviço.
         /// </summary>
-        /// <param name="request">Credênciais de acesso.</param>
-        /// <response code="200">Criado com sucesso.</response>
+        /// <param name="request">Dados do serviço.</param>
+        /// <response code="200">Serviço criado com sucesso.</response>
         /// <response code="400">Falha no servidor. Tente novamente mais tarde.</response>
         [HttpPost]
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(SimpleResponse<LoginResult>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ErrorResponse))]
-        public async Task<IActionResult> CreateAsync([FromBody] UserCreateRequest request)
+        public async Task<IActionResult> CreateAsync([FromBody] ServicoRequest request)
         {
-            ValidationReturn<LoginResult> result = await _userApplicationService.CreateAsync(request);
+            ValidationReturn<ServicoResult> result = await _servicoApplicationService.CreateAsync(request);
 
             return result.Success
-                ? StatusCode(StatusCodes.Status200OK, new SimpleResponse<LoginResult>(true, result.Data))
+                ? StatusCode(StatusCodes.Status200OK, new SimpleResponse<ServicoResult>(true, result.Data))
                 : StatusCode(StatusCodes.Status400BadRequest, new ErrorResponse(result.Errors));
         }
-
-        //[HttpGet]
-        //[AllowAnonymous]
-        //public async Task<IActionResult> TesteAsync()
-        //{
-        //    await _userApplicationService.TesteAsync();
-
-        //    return StatusCode(StatusCodes.Status200OK);
-        //}
     }
 }
